@@ -193,7 +193,8 @@ def call_hf_api(
         if "choices" not in data:
             return f"__BAD_RESPONSE__\n{json.dumps(data, indent=2)}"
 
-        return data["choices"][0]["message"]["content"]
+        print("HF RESPONSE:", data)
+            return data["choices"][0]["message"]["content"]
 
     except requests.exceptions.Timeout:
         return "__TIMEOUT__"
