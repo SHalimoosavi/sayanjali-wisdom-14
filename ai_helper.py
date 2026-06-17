@@ -16,7 +16,7 @@ from typing import Optional
 # ─────────────────────────────────────────────
 #  CONSTANTS
 # ─────────────────────────────────────────────
-HF_API_URL = "https://api-inference.huggingface.co/v1/chat/completions"
+HF_API_URL = "https://router.huggingface.co/v1/chat/completions"
 
 USULI_KEYWORDS = [
     "fatwa", "marja", "taqlid", "ijtihad", "moulvi", "mullah", "ayatollah",
