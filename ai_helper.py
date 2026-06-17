@@ -158,13 +158,15 @@ def call_hf_api(
     temperature: float = 0.3,
 ) -> Optional[str]:
     """
-    Call Hugging Face Inference API (OpenAI-compatible endpoint).
-    Returns raw text content or None on failure.
+    Call Hugging Face Inference API.
+    Returns raw text content or detailed error.
     """
+
     headers = {
         "Authorization": f"Bearer {hf_token}",
         "Content-Type": "application/json",
     }
+
     payload = {
         "model": model,
         "messages": messages,
@@ -180,21 +182,27 @@ def call_hf_api(
             json=payload,
             timeout=90,
         )
-        response.raise_for_status()
-        data = response.json()
-        return data["choices"][0]["message"]["content"]
-    except requests.exceptions.Timeout:
-        return None
-    except requests.exceptions.HTTPError as e:
-        status = e.response.status_code if e.response else 0
-        if status == 429:
-            return "__RATE_LIMIT__"
-        elif status == 401:
-            return "__AUTH_ERROR__"
-        return None
-    except Exception:
-        return None
 
+        # DEBUG: show actual HF error
+        if response.status_code != 200:
+            return f"__HTTP_{response.status_code}__\n{response.text}"
+
+        data = response.json()
+
+        # DEBUG: unexpected response format
+        if "choices" not in data:
+            return f"__BAD_RESPONSE__\n{json.dumps(data, indent=2)}"
+
+        return data["choices"][0]["message"]["content"]
+
+    except requests.exceptions.Timeout:
+        return "__TIMEOUT__"
+
+    except requests.exceptions.HTTPError as e:
+        return f"__HTTP_ERROR__ {str(e)}"
+
+    except Exception as e:
+        return f"__ERROR__ {str(e)}"
 
 # ─────────────────────────────────────────────
 #  PARSE AI RESPONSE
