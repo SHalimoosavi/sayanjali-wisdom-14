@@ -277,7 +277,7 @@ if "hf_token" not in st.session_state:
         )
 
 if "model_choice" not in st.session_state:
-    st.session_state.model_choice = "Qwen/QwQ-32B"
+    st.session_state.model_choice = "Qwen/Qwen2.5-72B-Instruct"
 
 if "prefill" not in st.session_state:
     st.session_state.prefill = ""
@@ -351,10 +351,11 @@ with st.sidebar:
     selected_model = st.selectbox(
         "Model",
         [
-            "Qwen/QwQ-32B",
-            "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
-            "Qwen/Qwen2.5-72B-Instruct",
-        ],
+        "Qwen/Qwen2.5-72B-Instruct",
+        "meta-llama/Llama-3.3-70B-Instruct",
+        "deepseek-ai/DeepSeek-R1",
+        ]
+
         label_visibility="collapsed",
     )
 
