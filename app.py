@@ -354,7 +354,7 @@ with st.sidebar:
         "Qwen/Qwen2.5-72B-Instruct",
         "meta-llama/Llama-3.3-70B-Instruct",
         "deepseek-ai/DeepSeek-R1",
-        ]
+        ],
 
         label_visibility="collapsed",
     )
