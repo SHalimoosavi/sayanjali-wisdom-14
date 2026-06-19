@@ -21,9 +21,9 @@ from typing import Optional
 HF_ROUTER_URL = "https://router.huggingface.co/v1/chat/completions"
 
 SUPPORTED_MODELS = [
-    "Qwen/QwQ-32B",
-    "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
     "Qwen/Qwen2.5-72B-Instruct",
+    "meta-llama/Llama-3.3-70B-Instruct",
+    "deepseek-ai/DeepSeek-R1",
 ]
 
 USULI_KEYWORDS = [
@@ -130,9 +130,6 @@ Hadith questions should use response_type="hadith"
 Knowledge questions should use response_type="knowledge"
 """
 
-# ---------------------------------------------------------------------------
-#  1. LANGUAGE DETECTION
-# ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 #  1. LANGUAGE DETECTION
 # ---------------------------------------------------------------------------
@@ -286,7 +283,7 @@ def call_hf_api(
         return "__HTTP_429__"
     if not response.ok:
         # Capture any other HTTP error
-        return f"__ERROR__ HTTP {response.status_code}"
+        return f"__ERROR__ HTTP {response.status_code}: {response.text}"
 
     try:
         data = response.json()
